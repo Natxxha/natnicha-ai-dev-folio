@@ -1,359 +1,277 @@
-
-import React, { useState, useEffect } from 'react';
-import { ChevronDown, Youtube, Facebook, Globe, BookOpen, Code, Brain, Menu, X } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent } from '@/components/ui/card';
+import { useState } from "react";
+import { Link } from "react-router-dom";
 
 const Index = () => {
-  const [isVisible, setIsVisible] = useState(false);
-  const [activeSection, setActiveSection] = useState('hero');
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-
-  useEffect(() => {
-    setIsVisible(true);
-    
-    const handleScroll = () => {
-      const sections = ['hero', 'about', 'portfolio', 'contact'];
-      const scrollPosition = window.scrollY + 100;
-      
-      sections.forEach(section => {
-        const element = document.getElementById(section);
-        if (element) {
-          const offsetTop = element.offsetTop;
-          const height = element.offsetHeight;
-          
-          if (scrollPosition >= offsetTop && scrollPosition < offsetTop + height) {
-            setActiveSection(section);
-          }
-        }
-      });
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
-
-  const scrollToSection = (sectionId: string) => {
-    const element = document.getElementById(sectionId);
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
-    setIsMobileMenuOpen(false);
-  };
-
-  const navigationItems = [
-    { id: 'hero', label: 'หน้าแรก' },
-    { id: 'about', label: 'เกี่ยวกับ' },
-    { id: 'portfolio', label: 'ผลงาน' },
-    { id: 'contact', label: 'ติดต่อ' }
-  ];
-
-  const socialLinks = [
-    {
-      name: 'YouTube',
-      url: 'https://www.youtube.com/@Natnichaff',
-      icon: Youtube,
-      description: 'ช่องเกี่ยวกับ AI และ Coding',
-      color: 'hover:text-red-500',
-      stats: 'เนื้อหา AI & Coding'
-    },
-    {
-      name: 'Facebook',
-      url: 'https://www.facebook.com/natnicha.funfueag',
-      icon: Facebook,
-      description: 'เพจเกี่ยวกับ AI',
-      color: 'hover:text-blue-500',
-      stats: 'ชุมชน AI Learners'
-    },
-    {
-      name: 'Website',
-      url: 'https://natnicha.com',
-      icon: Globe,
-      description: 'เว็บไซต์เกี่ยวกับ AI และ Coding',
-      color: 'hover:text-green-500',
-      stats: 'บทความ & คอร์สเรียน'
-    }
-  ];
-
-  const skills = [
-    { name: 'AI Education', icon: Brain, description: 'สอน AI มา 10+ ปี' },
-    { name: 'Content Creation', icon: BookOpen, description: 'สร้างเนื้อหาคุณภาพ' },
-    { name: 'Coding', icon: Code, description: 'เขียนโปรแกรม & พัฒนา' }
-  ];
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 text-white">
-      {/* Fixed Navigation */}
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-gray-900/95 backdrop-blur-sm border-b border-gray-700">
+    <div className="min-h-screen bg-gradient-to-br from-purple-50 via-blue-50 to-indigo-100">
+      {/* Navigation */}
+      <nav className="bg-white/90 backdrop-blur-md border-b border-gray-200 sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center">
-              <span className="text-xl font-bold bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
+              <span className="text-2xl font-bold bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
                 Natnicha
               </span>
             </div>
             
             {/* Desktop Navigation */}
-            <div className="hidden md:flex space-x-8">
-              {navigationItems.map((item) => (
-                <button
-                  key={item.id}
-                  onClick={() => scrollToSection(item.id)}
-                  className={`px-3 py-2 text-sm font-medium transition-colors duration-200 ${
-                    activeSection === item.id
-                      ? 'text-purple-400 border-b-2 border-purple-400'
-                      : 'text-gray-300 hover:text-white'
-                  }`}
-                >
-                  {item.label}
-                </button>
-              ))}
+            <div className="hidden md:flex items-center space-x-8">
+              <a href="#home" className="text-gray-700 hover:text-purple-600 transition-colors">หน้าแรก</a>
+              <a href="#about" className="text-gray-700 hover:text-purple-600 transition-colors">เกี่ยวกับ</a>
+              <a href="#portfolio" className="text-gray-700 hover:text-purple-600 transition-colors">ผลงาน</a>
+              <a href="#contact" className="text-gray-700 hover:text-purple-600 transition-colors">ติดต่อ</a>
+              <Link 
+                to="/login" 
+                className="bg-gradient-to-r from-purple-600 to-blue-600 text-white px-4 py-2 rounded-lg hover:from-purple-700 hover:to-blue-700 transition-all duration-200 shadow-md hover:shadow-lg"
+              >
+                เข้าสู่ระบบ
+              </Link>
             </div>
 
             {/* Mobile menu button */}
             <div className="md:hidden">
               <button
-                onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-                className="text-gray-300 hover:text-white p-2"
+                onClick={() => setIsMenuOpen(!isMenuOpen)}
+                className="text-gray-700 hover:text-purple-600 focus:outline-none focus:text-purple-600"
               >
-                {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+                <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
               </button>
             </div>
           </div>
-        </div>
 
-        {/* Mobile Navigation */}
-        {isMobileMenuOpen && (
-          <div className="md:hidden bg-gray-800 border-t border-gray-700">
-            <div className="px-2 pt-2 pb-3 space-y-1">
-              {navigationItems.map((item) => (
-                <button
-                  key={item.id}
-                  onClick={() => scrollToSection(item.id)}
-                  className="block px-3 py-2 text-base font-medium text-gray-300 hover:text-white hover:bg-gray-700 rounded-md w-full text-left transition-colors"
+          {/* Mobile Navigation */}
+          {isMenuOpen && (
+            <div className="md:hidden">
+              <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-white/95 backdrop-blur-md rounded-lg mt-2 shadow-lg">
+                <a href="#home" className="block px-3 py-2 text-gray-700 hover:text-purple-600 transition-colors">หน้าแรก</a>
+                <a href="#about" className="block px-3 py-2 text-gray-700 hover:text-purple-600 transition-colors">เกี่ยวกับ</a>
+                <a href="#portfolio" className="block px-3 py-2 text-gray-700 hover:text-purple-600 transition-colors">ผลงาน</a>
+                <a href="#contact" className="block px-3 py-2 text-gray-700 hover:text-purple-600 transition-colors">ติดต่อ</a>
+                <Link 
+                  to="/login" 
+                  className="block px-3 py-2 bg-gradient-to-r from-purple-600 to-blue-600 text-white rounded-lg hover:from-purple-700 hover:to-blue-700 transition-all duration-200 text-center"
                 >
-                  {item.label}
-                </button>
-              ))}
+                  เข้าสู่ระบบ
+                </Link>
+              </div>
             </div>
-          </div>
-        )}
+          )}
+        </div>
       </nav>
 
       {/* Hero Section */}
-      <section id="hero" className="min-h-screen flex items-center justify-center relative pt-16">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(120,119,198,0.1),transparent_50%)]"></div>
-        
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className={`text-center z-10 transition-all duration-1000 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-            <div className="mb-8 relative">
-              <div className="w-24 h-24 sm:w-32 sm:h-32 mx-auto rounded-full bg-gradient-to-r from-purple-500 to-pink-500 p-1 animate-pulse">
-                <div className="w-full h-full rounded-full bg-gray-800 flex items-center justify-center">
-                  <span className="text-2xl sm:text-3xl font-bold">NF</span>
-                </div>
-              </div>
-            </div>
-            
-            <h1 className="text-3xl sm:text-5xl lg:text-7xl font-bold mb-4 sm:mb-6 bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent animate-fade-in">
-              Natnicha Fungfueang
-            </h1>
-            
-            <p className="text-lg sm:text-xl lg:text-2xl text-gray-300 mb-6 sm:mb-8 animate-fade-in" style={{ animationDelay: '0.2s' }}>
-              AI Content Creator & Educator
-            </p>
-            
-            <p className="text-sm sm:text-base text-gray-400 mb-8 max-w-2xl mx-auto animate-fade-in" style={{ animationDelay: '0.3s' }}>
-              ประสบการณ์การสอน AI มากกว่า 10 ปี | สร้างเนื้อหาคุณภาพ | พัฒนาชุมชนผู้เรียน AI
-            </p>
-            
-            <div className="flex flex-wrap justify-center gap-3 sm:gap-4 mb-8 sm:mb-12">
-              {skills.map((skill, index) => (
-                <div
-                  key={skill.name}
-                  className="group flex items-center gap-2 px-3 sm:px-4 py-2 bg-gray-700/50 rounded-full border border-gray-600 hover:border-purple-500 transition-all duration-300 hover:scale-105 animate-fade-in"
-                  style={{ animationDelay: `${0.4 + index * 0.1}s` }}
-                >
-                  <skill.icon size={16} className="sm:w-5 sm:h-5" />
-                  <div className="text-left">
-                    <span className="text-xs sm:text-sm font-medium block">{skill.name}</span>
-                    <span className="text-xs text-gray-400 group-hover:text-gray-300 transition-colors">
-                      {skill.description}
-                    </span>
-                  </div>
-                </div>
-              ))}
-            </div>
-            
-            <Button
-              onClick={() => scrollToSection('about')}
-              className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white px-6 sm:px-8 py-3 rounded-full text-base sm:text-lg transition-all duration-300 hover:scale-105 animate-fade-in"
-              style={{ animationDelay: '0.8s' }}
-            >
-              เรียนรู้เพิ่มเติม
-            </Button>
-          </div>
+      <header className="relative py-24">
+        <div className="absolute inset-0">
+          <img
+            src="https://images.unsplash.com/photo-1635070470434-6174c9d17941?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2574&q=80"
+            alt="Hero Background"
+            className="w-full h-full object-cover object-center opacity-30"
+          />
         </div>
-        
-        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
-          <ChevronDown size={32} className="text-gray-400" />
+        <div className="container mx-auto text-center relative">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-800 mb-4 bg-gradient-to-r from-purple-600 to-blue-600 bg-clip-text text-transparent">
+            AI Content Creator & Educator
+          </h1>
+          <p className="text-lg text-gray-700 mb-8">
+            ยินดีต้อนรับสู่ Portfolio ของฉัน ที่นี่คุณจะได้พบกับผลงานและ
+            ประสบการณ์ด้าน AI Content Creation
+          </p>
+          <a
+            href="#portfolio"
+            className="bg-gradient-to-r from-purple-600 to-blue-600 text-white px-6 py-3 rounded-lg hover:from-purple-700 hover:to-blue-700 transition-all duration-200 shadow-md hover:shadow-lg"
+          >
+            ดูผลงาน
+          </a>
         </div>
-      </section>
+      </header>
 
       {/* About Section */}
-      <section id="about" className="py-16 sm:py-20 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-6xl mx-auto">
-          <h2 className="text-3xl sm:text-4xl font-bold mb-8 sm:mb-12 text-center bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
-            เกี่ยวกับฉัน
-          </h2>
-          
-          <div className="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
-            <div className="space-y-6">
-              <Card className="bg-gray-800/50 border-gray-700 hover:bg-gray-800/70 transition-all duration-300 hover:scale-105">
-                <CardContent className="p-6">
-                  <div className="flex items-center gap-3 mb-4">
-                    <Brain className="text-purple-400" size={24} />
-                    <h3 className="text-xl font-semibold">AI Content Creator & Educator</h3>
-                  </div>
-                  <p className="text-gray-300 leading-relaxed">
-                    เป็นคอนเทนครีเอเตอร์ AI และผู้สอน AI ด้วยประสบการณ์การสอนมากกว่า 10 ปี 
-                    มุ่งมั่นสร้างเนื้อหาคุณภาพและพัฒนาชุมชนผู้เรียน AI ในประเทศไทย
-                  </p>
-                  <div className="mt-4 flex items-center gap-2 text-sm text-purple-400">
-                    <span className="w-2 h-2 bg-purple-400 rounded-full"></span>
-                    10+ ปีประสบการณ์การสอน
-                  </div>
-                </CardContent>
-              </Card>
-
-              <Card className="bg-gray-800/50 border-gray-700 hover:bg-gray-800/70 transition-all duration-300 hover:scale-105">
-                <CardContent className="p-6">
-                  <div className="flex items-center gap-3 mb-4">
-                    <BookOpen className="text-pink-400" size={24} />
-                    <h3 className="text-xl font-semibold">การศึกษา</h3>
-                  </div>
-                  <p className="text-gray-300 leading-relaxed">
-                    <strong>ระบบสารสนเทศทางคอมพิวเตอร์</strong><br />
-                    มหาวิทยาลัยเทคโนโลยีราชมงคล
-                  </p>
-                  <div className="mt-4 flex items-center gap-2 text-sm text-pink-400">
-                    <span className="w-2 h-2 bg-pink-400 rounded-full"></span>
-                    รากฐานทางเทคนิคที่แข็งแกร่ง
-                  </div>
-                </CardContent>
-              </Card>
+      <section id="about" className="py-16">
+        <div className="container mx-auto px-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+            <div>
+              <h2 className="text-3xl font-bold text-gray-800 mb-4">
+                เกี่ยวกับฉัน
+              </h2>
+              <p className="text-gray-700 mb-4">
+                ฉันคือ Natnicha Fungfueang, AI Content Creator
+                และผู้สอนที่มีประสบการณ์มากกว่า 10 ปี
+                ในการสร้างสรรค์คอนเทนต์ที่น่าสนใจและมีคุณภาพ
+                ด้วยเทคโนโลยี AI ที่ทันสมัย
+              </p>
+              <p className="text-gray-700">
+                ฉันมุ่งมั่นที่จะแบ่งปันความรู้และประสบการณ์
+                เพื่อช่วยให้คุณเข้าใจและใช้ประโยชน์จาก AI
+                ในการสร้างคอนเทนต์ได้อย่างมีประสิทธิภาพ
+              </p>
             </div>
-            
-            <div className="relative">
-              <div className="w-full h-80 sm:h-96 bg-gradient-to-br from-purple-600/20 to-pink-600/20 rounded-lg border border-gray-700 flex items-center justify-center relative overflow-hidden">
-                <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_30%,rgba(120,119,198,0.3),transparent_50%)]"></div>
-                <div className="text-center z-10">
-                  <Code size={48} className="sm:w-16 sm:h-16 mx-auto mb-4 text-purple-400 animate-float" />
-                  <p className="text-lg sm:text-xl font-semibold text-gray-200 mb-2">10+ ปีประสบการณ์</p>
-                  <p className="text-sm sm:text-base text-gray-300">การสอนและสร้างเนื้อหา AI</p>
-                  <div className="mt-6 grid grid-cols-2 gap-4 text-center">
-                    <div>
-                      <div className="text-2xl font-bold text-purple-400">1000+</div>
-                      <div className="text-xs text-gray-400">นักเรียน</div>
-                    </div>
-                    <div>
-                      <div className="text-2xl font-bold text-pink-400">50+</div>
-                      <div className="text-xs text-gray-400">วิดีโอ</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+            <div>
+              <img
+                src="https://images.unsplash.com/photo-1517245412419-9424e8893788?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2574&q=80"
+                alt="About Me"
+                className="rounded-lg shadow-lg"
+              />
             </div>
           </div>
         </div>
       </section>
 
       {/* Portfolio Section */}
-      <section id="portfolio" className="py-16 sm:py-20 px-4 sm:px-6 lg:px-8 bg-gray-800/30">
-        <div className="max-w-6xl mx-auto">
-          <h2 className="text-3xl sm:text-4xl font-bold text-center mb-8 sm:mb-12 bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
-            ผลงานของเรา
+      <section id="portfolio" className="py-16 bg-gray-50">
+        <div className="container mx-auto px-4">
+          <h2 className="text-3xl font-bold text-gray-800 mb-8 text-center">
+            ผลงาน
           </h2>
-          
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
-            {socialLinks.map((link, index) => (
-              <Card
-                key={link.name}
-                className="bg-gray-800/50 border-gray-700 hover:bg-gray-800/70 transition-all duration-300 hover:scale-105 hover:-translate-y-2 group"
-              >
-                <CardContent className="p-6 text-center">
-                  <div className={`inline-flex items-center justify-center w-16 h-16 rounded-full bg-gray-700 mb-4 group-hover:scale-110 transition-transform duration-300 ${link.color}`}>
-                    <link.icon size={32} />
-                  </div>
-                  <h3 className="text-xl font-semibold mb-2">{link.name}</h3>
-                  <p className="text-gray-400 mb-2 text-sm">{link.description}</p>
-                  <p className="text-xs text-purple-300 mb-4">{link.stats}</p>
-                  <Button
-                    asChild
-                    className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white w-full"
-                  >
-                    <a href={link.url} target="_blank" rel="noopener noreferrer">
-                      เยี่ยมชม
-                    </a>
-                  </Button>
-                </CardContent>
-              </Card>
-            ))}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {/* Portfolio Item 1 */}
+            <div className="bg-white rounded-lg shadow-md overflow-hidden">
+              <img
+                src="https://images.unsplash.com/photo-1581093458744-b5f3f99e73eb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2574&q=80"
+                alt="Portfolio Item"
+                className="w-full h-48 object-cover object-center"
+              />
+              <div className="p-4">
+                <h3 className="text-xl font-semibold text-gray-800 mb-2">
+                  AI-Powered Article Generator
+                </h3>
+                <p className="text-gray-600">
+                  เครื่องมือสร้างบทความอัตโนมัติด้วย AI
+                  ที่ช่วยให้คุณสร้างคอนเทนต์ได้อย่างรวดเร็วและง่ายดาย
+                </p>
+              </div>
+            </div>
+
+            {/* Portfolio Item 2 */}
+            <div className="bg-white rounded-lg shadow-md overflow-hidden">
+              <img
+                src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80"
+                alt="Portfolio Item"
+                className="w-full h-48 object-cover object-center"
+              />
+              <div className="p-4">
+                <h3 className="text-xl font-semibold text-gray-800 mb-2">
+                  AI-Driven Social Media Management
+                </h3>
+                <p className="text-gray-600">
+                  ระบบจัดการโซเชียลมีเดียที่ขับเคลื่อนด้วย AI
+                  ช่วยให้คุณวางแผนและจัดการคอนเทนต์ได้อย่างมีประสิทธิภาพ
+                </p>
+              </div>
+            </div>
+
+            {/* Portfolio Item 3 */}
+            <div className="bg-white rounded-lg shadow-md overflow-hidden">
+              <img
+                src="https://images.unsplash.com/photo-1583508915404-29ebfc72c66f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2574&q=80"
+                alt="Portfolio Item"
+                className="w-full h-48 object-cover object-center"
+              />
+              <div className="p-4">
+                <h3 className="text-xl font-semibold text-gray-800 mb-2">
+                  AI-Enhanced Content Optimization
+                </h3>
+                <p className="text-gray-600">
+                  เครื่องมือปรับปรุงคอนเทนต์ด้วย AI
+                  ที่ช่วยให้คุณปรับปรุงเนื้อหาให้มีคุณภาพและน่าสนใจยิ่งขึ้น
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </section>
 
       {/* Contact Section */}
-      <section id="contact" className="py-16 sm:py-20 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-3xl sm:text-4xl font-bold mb-8 bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">
-            ติดต่อเรา
+      <section id="contact" className="py-16">
+        <div className="container mx-auto px-4">
+          <h2 className="text-3xl font-bold text-gray-800 mb-8 text-center">
+            ติดต่อ
           </h2>
-          
-          <Card className="bg-gray-800/50 border-gray-700 hover:bg-gray-800/70 transition-all duration-300">
-            <CardContent className="p-8">
-              <Facebook className="mx-auto mb-4 text-blue-400" size={48} />
-              <h3 className="text-2xl font-semibold mb-4">Facebook Page</h3>
-              <p className="text-gray-300 mb-6 leading-relaxed max-w-2xl mx-auto">
-                ติดต่อเราผ่านเพจ Facebook สำหรับคำถามและการสนทนาเกี่ยวกับ AI 
-                หรือสอบถามเกี่ยวกับคอร์สเรียนและการสอน
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div>
+              <p className="text-gray-700 mb-4">
+                หากคุณมีคำถามหรือต้องการปรึกษาเกี่ยวกับ AI Content Creation
+                โปรดติดต่อฉันได้เลย
               </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-                <Button
-                  asChild
-                  className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white px-8 py-3"
+              <ul className="text-gray-700">
+                <li className="mb-2">
+                  <span className="font-semibold">อีเมล:</span>{' '}
+                  natnicha@example.com
+                </li>
+                <li className="mb-2">
+                  <span className="font-semibold">โทรศัพท์:</span> 081-234-5678
+                </li>
+                <li className="mb-2">
+                  <span className="font-semibold">ที่อยู่:</span> กรุงเทพมหานคร,
+                  ประเทศไทย
+                </li>
+              </ul>
+            </div>
+            <div>
+              <form className="space-y-4">
+                <div>
+                  <label
+                    htmlFor="name"
+                    className="block text-gray-700 text-sm font-bold mb-2"
+                  >
+                    ชื่อ:
+                  </label>
+                  <input
+                    type="text"
+                    id="name"
+                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    placeholder="ชื่อของคุณ"
+                  />
+                </div>
+                <div>
+                  <label
+                    htmlFor="email"
+                    className="block text-gray-700 text-sm font-bold mb-2"
+                  >
+                    อีเมล:
+                  </label>
+                  <input
+                    type="email"
+                    id="email"
+                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    placeholder="อีเมลของคุณ"
+                  />
+                </div>
+                <div>
+                  <label
+                    htmlFor="message"
+                    className="block text-gray-700 text-sm font-bold mb-2"
+                  >
+                    ข้อความ:
+                  </label>
+                  <textarea
+                    id="message"
+                    rows={4}
+                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    placeholder="ข้อความของคุณ"
+                  ></textarea>
+                </div>
+                <button
+                  type="submit"
+                  className="bg-gradient-to-r from-purple-600 to-blue-600 text-white px-4 py-2 rounded-lg hover:from-purple-700 hover:to-blue-700 transition-all duration-200 shadow-md hover:shadow-lg"
                 >
-                  <a href="https://www.facebook.com/natnicha.funfueag" target="_blank" rel="noopener noreferrer">
-                    ติดต่อเรา
-                  </a>
-                </Button>
-                <p className="text-sm text-gray-400">
-                  หรือส่งข้อความโดยตรงใน Facebook
-                </p>
-              </div>
-            </CardContent>
-          </Card>
+                  ส่งข้อความ
+                </button>
+              </form>
+            </div>
+          </div>
         </div>
       </section>
 
       {/* Footer */}
-      <footer className="py-8 text-center border-t border-gray-700 bg-gray-900/50">
-        <div className="max-w-6xl mx-auto px-4">
-          <p className="text-gray-400 mb-4">
-            © 2024 Natnicha Fungfueang. All rights reserved.
+      <footer className="bg-gray-100 py-4">
+        <div className="container mx-auto px-4 text-center">
+          <p className="text-gray-600">
+            &copy; 2023 Natnicha Fungfueang. All rights reserved.
           </p>
-          <div className="flex justify-center space-x-6">
-            {socialLinks.map((link) => (
-              <a
-                key={link.name}
-                href={link.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                className={`text-gray-400 transition-colors ${link.color}`}
-              >
-                <link.icon size={20} />
-              </a>
-            ))}
-          </div>
         </div>
       </footer>
     </div>
